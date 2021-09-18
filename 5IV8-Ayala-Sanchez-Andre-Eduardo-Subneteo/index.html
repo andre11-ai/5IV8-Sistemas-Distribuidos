@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subneteo</title>
+    <script src="js/Operaciones.js" ></script>
+    <script src="js/Llenar.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/DIseño.css">
+</head>
+<body>
+    <div class="div_inicio">
+        <div class="cont_perfil" align="center">
+            <br><br>
+            <h1 align="center" class="sub">Subneteo</h1>
+
+            <br><br>
+            
+                <label class="enun">Ingresa la ip</label>
+                    
+                <input type="input_text" class="boxi" id="ip" name="ip" >
+                <br><br>
+                    
+                <label class="enun">Numero de subredes</label>
+                    
+                <input type="input_text" class="boxi" id="subred">
+                   
+                <input type="button" class="boxi" value="Calcular" onclick="Funciones()" >
+                    
+        </div>
+        <br>
+        <div class="cont_perfil" align="center">
+           
+            <h2>IP en binario</h2>
+                   
+            <input type="text" class="dis" id="ipbin" readonly>
+               
+            <h2>Tipo de clase</h2>  
+                    
+            <input type="text" class="dis" id="clase" readonly>
+                    
+            <h2>Máscara de subred adaptada</h2>
+                    
+            <input type="text" class="dis" id="maskadap" readonly>
+                   
+            <h2>Máscara de subred en binario</h2>
+                    
+            <input type="text" class="dis" id="maskbin" readonly>
+                    
+            
+        </div>
+        <br>
+        <div>
+            <table id="tabla1" class="table" align="center">           
+            </table>
+        </div>
+    </div>  
+    <br>
+    <br>
+    <br>
+</body>
+</html>
