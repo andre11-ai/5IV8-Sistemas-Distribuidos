@@ -16,7 +16,7 @@ public class ScoreBoard extends JLabel {
 
     private int level;
 
-    String[] sentences = {"¡Artista!", "¡Ole tu!", "¡Toma geroma!"};
+    String[] sentences = {""};
 
     public ScoreBoard() {
         super(); //inicializamos la superclase
