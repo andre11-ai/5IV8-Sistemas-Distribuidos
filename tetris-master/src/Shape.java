@@ -11,7 +11,7 @@ import java.net.Socket;
  */
 /**
  *
- * @author alu20482156n
+ * @author Studio
  */
 public class Shape {
 
@@ -38,7 +38,7 @@ public class Shape {
             coordinates[point][0] = coordsTable[pieceShape.ordinal()][point][0];
             coordinates[point][1] = coordsTable[pieceShape.ordinal()][point][1];
         }
-        // coordinates = coordsTable[pieceShape.ordinal()]; //saca el ordinal a partir del enum
+        
 
     }
 
@@ -46,7 +46,7 @@ public class Shape {
 
         int randomNumber = (int) (Math.random() * 7 + 1); //del 0-6 +1
         pieceShape = Tetrominoes.values()[randomNumber]; //teniendo el ordinal, saca el enum
-        // coordinates = coordsTable[randomNumber];
+        
 
         coordinates = new int[4][2];
         for (int point = 0; point < coordinates.length; point++) {

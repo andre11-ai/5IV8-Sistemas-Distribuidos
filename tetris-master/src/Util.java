@@ -9,7 +9,7 @@ import java.awt.Graphics;
  */
 /**
  *
- * @author alu20482156n
+ * @author Studio
  */
 public class Util {
 

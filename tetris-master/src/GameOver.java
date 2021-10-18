@@ -9,7 +9,7 @@ import javax.swing.JLabel;
  */
 /**
  *
- * @author alu20482156n
+ * @author Studio
  */
 public class GameOver extends javax.swing.JDialog {
 
@@ -58,7 +58,7 @@ public class GameOver extends javax.swing.JDialog {
             }
         });
 
-        jButton2.setText("exit");
+        jButton2.setText("salir");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

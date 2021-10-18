@@ -6,7 +6,7 @@
 
 /**
  *
- * @author hp
+ * @author Studio
  */
 
 
@@ -17,12 +17,12 @@ import java.util.logging.Logger;
 
 public class Servidor implements Runnable {
     
-    public Socket client;
+    public Socket usuario;
     private static ServerSocket server;
     public static int port;
     
-    public Servidor(Socket client) {
-        this.client = client;
+    public Servidor(Socket usuario) {
+        this.usuario = usuario;
     }
     
     public static void main ( String[] args ) throws IOException {  
@@ -41,22 +41,22 @@ public class Servidor implements Runnable {
     
     @Override
     public void run() {
-        System.out.println("Cliente conectado: " + client.getInetAddress());
+        System.out.println("Cliente conectado: " + usuario.getInetAddress());
         DataTransfer dto = DataTransfer.getInstance();
-        int player = -1;
+        int jugador = -1;
         System.out.println("Entrando na fila...");
-        while(player == -1) player = dto.addPlayer();
+        while(jugador == -1) jugador = dto.addPlayer();
         String msg;
         while(true) {
             try {
                 DataInputStream inputStream;
-                inputStream = new DataInputStream(client.getInputStream());
+                inputStream = new DataInputStream(usuario.getInputStream());
                 msg = inputStream.readUTF();
-                System.out.println("Mensagem Recebida: " + msg + " User: " + player);
-                DataOutputStream outputStream = new DataOutputStream(client.getOutputStream());
+                System.out.println("Mensagem Recebida: " + msg + " User: " + jugador);
+                DataOutputStream outputStream = new DataOutputStream(usuario.getOutputStream());
                 switch (msg) {
                     case "getScore":
-                        msg = "" + dto.receiveLines(player);
+                        msg = "" + dto.receiveLines(jugador);
                         outputStream.writeUTF(msg);
                         outputStream.flush();
                         break;
@@ -66,30 +66,25 @@ public class Servidor implements Runnable {
                         outputStream.flush();
                         String r = inputStream.readUTF();
                         int l = Integer.parseInt(r);
-                        dto.sendLines(player, l);
+                        dto.sendLines(jugador, l);
                         break;
                     case "getSentence":
-                        int status = dto.getState(player);
-                        System.out.println("Status do player " + player + ": " + status);
-                        msg = "" + dto.getState(player);
+                        int estado = dto.getState(jugador);
+                        System.out.println("Estado del jugador " + jugador + ": " + estado);
+                        msg = "" + dto.getState(jugador);
                         outputStream.writeUTF(msg);
                         outputStream.flush();
                         break;
                     case "lostGame":
-                        dto.setState(player, DataTransfer.DEFEATED);
+                        dto.setState(jugador, DataTransfer.derrota);
                         break;
-                    /*
-                    case "sendGrid":
-                        break;
-                    case "getGrid":
-                        break;
-                    */
+                    
                     case "close":
-                        dto.freePlayer(player);
-                        client.close();
+                        dto.freePlayer(jugador);
+                        usuario.close();
                 }               
             } catch (IOException ex) {
-                //do nothing
+                
             }
         }
     }

@@ -6,7 +6,7 @@
 
 /**
  *
- * @author victor
+ * @author Studio
  */
 public enum Tetrominoes {
     NoShape, ZShape, SShape, LineShape, TShape, 

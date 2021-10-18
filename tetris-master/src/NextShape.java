@@ -10,7 +10,7 @@ import javax.swing.JPanel;
  */
 /**
  *
- * @author alu20482156n
+ * @author Studio
  */
 public class NextShape extends JPanel {
 

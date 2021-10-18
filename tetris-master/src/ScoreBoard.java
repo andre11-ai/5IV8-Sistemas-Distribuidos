@@ -8,7 +8,7 @@ import javax.swing.JLabel;
  */
 /**
  *
- * @author alu20482156n
+ * @author Studio
  */
 public class ScoreBoard extends JLabel {
 

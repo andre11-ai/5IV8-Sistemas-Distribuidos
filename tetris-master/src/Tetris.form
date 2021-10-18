@@ -6,12 +6,12 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Game"/>
+            <Property name="text" type="java.lang.String" value="Correr"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemInitGame">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Ini game"/>
+                <Property name="text" type="java.lang.String" value="Play"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemInitGameActionPerformed"/>

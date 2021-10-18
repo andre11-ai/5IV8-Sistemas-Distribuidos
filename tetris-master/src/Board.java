@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +14,7 @@ import sun.misc.LRUCache;
  */
 /**
  *
- * @author alu20482156n
+ * @author Studio
  */
 public class Board extends JPanel implements ActionListener {
 
@@ -25,35 +24,35 @@ public class Board extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    if (canMoveTo(currentShape, currentRow, currentCol - 1)) {
-                        currentCol--;
+                    if (canMoveTo(currentShape, filaact, colmact - 1)) {
+                        colmact--;
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if (canMoveTo(currentShape, currentRow, currentCol + 1)) {
-                        currentCol++;
+                    if (canMoveTo(currentShape, filaact, colmact + 1)) {
+                        colmact++;
                     }
                     break;
                 case KeyEvent.VK_UP:
                     Shape rotShape = currentShape.rotateRight();
-                    if (canMoveTo(rotShape, currentRow, currentCol)) {
+                    if (canMoveTo(rotShape, filaact, colmact)) {
                         currentShape = rotShape;
                     }
 
                     break;
                 case KeyEvent.VK_DOWN:
-                    if (canMoveTo(currentShape, currentRow + 1, currentCol)) {
-                        currentRow++;
+                    if (canMoveTo(currentShape, filaact + 1, colmact)) {
+                        filaact++;
                     }
                     break;
 
                 case KeyEvent.VK_P:
                     if (!timer.isRunning()) {
-                        scoreBoard.resume();
+                        score.resume();
                         timer.start();
                     } else {
                         timer.stop();
-                        scoreBoard.pause();
+                        score.pause();
                     }
                     break;
 
@@ -71,30 +70,30 @@ public class Board extends JPanel implements ActionListener {
         this.parentFrame = parentFrame;
     }
 
-    public static final int NUM_ROWS = 22;
-    public static final int NUM_COLS = 10;
+    public static final int filas = 22;
+    public static final int columnas = 10;
 
     private Tetrominoes[][] matrix;
     private int deltaTime;
 
     private Shape currentShape;
 
-    private int currentCol;
-    private int currentRow;
+    private int colmact;
+    private int filaact;
 
     private Timer timer;
 
     private MyKeyAdapter myKeyAdepter;
-    private ScoreBoard scoreBoard;
+    private ScoreBoard score;
 
-    public final int INIT_ROW = -2;
+    public final int ironda = -2;
 
     private boolean paused = false;
 
     public NextShape nextShape;
 
-    public void setScoreBoard(ScoreBoard scoreBoard) {
-        this.scoreBoard = scoreBoard;
+    public void setScoreBoard(ScoreBoard score) {
+        this.score = score;
     }
 
     public void setNextShape(NextShape nextShape) {
@@ -104,7 +103,7 @@ public class Board extends JPanel implements ActionListener {
     public Board() {
         super();
 
-        matrix = new Tetrominoes[NUM_ROWS][NUM_COLS];
+        matrix = new Tetrominoes[filas][columnas];
 
         initValues();
         timer = new Timer(deltaTime, this);
@@ -120,8 +119,8 @@ public class Board extends JPanel implements ActionListener {
         deltaTime = 500;
         currentShape = null;
 
-        currentRow = INIT_ROW;
-        currentCol = NUM_COLS / 2;
+        filaact = ironda;
+        colmact = columnas / 2;
 
     }
 
@@ -129,7 +128,7 @@ public class Board extends JPanel implements ActionListener {
 
         initValues();
         timer.start();
-        scoreBoard.reset();
+        score.reset();
 
         //currentShape = new Shape(); // = Shape.getRandomShape()
         currentShape = Shape.getRandomShape();
@@ -140,8 +139,8 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void cleanBoard() {
-        for (int row = 0; row < NUM_ROWS; row++) {
-            for (int col = 0; col < NUM_COLS; col++) {
+        for (int row = 0; row < filas; row++) {
+            for (int col = 0; col < columnas; col++) {
 
                 matrix[row][col] = Tetrominoes.NoShape;
             }
@@ -150,8 +149,8 @@ public class Board extends JPanel implements ActionListener {
 
     private boolean canMoveTo(Shape shape, int newRow, int newCol) {
         if ((newCol + shape.getXmin() < 0)
-                || (newCol + shape.getXmax() >= NUM_COLS)
-                || (newRow + shape.getYmax() >= NUM_ROWS)
+                || (newCol + shape.getXmax() >= columnas)
+                || (newRow + shape.getYmax() >= filas)
                 || hitWithMatrix(shape, newRow, newCol)) {
             return false;
         }
@@ -176,12 +175,12 @@ public class Board extends JPanel implements ActionListener {
     //Main Game loop
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (canMoveTo(currentShape, currentRow + 1, currentCol)) {
-            currentRow++;
+        if (canMoveTo(currentShape, filaact + 1, colmact)) {
+            filaact++;
 
         } else {
-            if (isGameOver()) {
-                gameOver();
+            if (GO()) {
+                gO();
             } else {
                 moveCurrentShapeToMatrix();
                 checkRow();
@@ -190,8 +189,8 @@ public class Board extends JPanel implements ActionListener {
                 currentShape = nextShape.getShape();
                 nextShape.generateNewShape();
 
-                currentRow = INIT_ROW;
-                currentCol = NUM_COLS / 2;
+                filaact = ironda;
+                colmact = columnas / 2;
 
             }
 
@@ -199,11 +198,11 @@ public class Board extends JPanel implements ActionListener {
         repaint(); //no se puede llamar directamente a paintComponent
     }
 
-    public boolean isGameOver() {
+    public boolean GO() {
 
         int[][] squaresArray = currentShape.getCoordinates();
         for (int point = 0; point <= 3; point++) {
-            int row = currentRow + squaresArray[point][1];
+            int row = filaact + squaresArray[point][1];
             //int col = currentCol + squaresArray[point][0];
 
             if (row < 0) {
@@ -213,16 +212,16 @@ public class Board extends JPanel implements ActionListener {
         return false;
     }
 
-    public void gameOver() {
-        scoreBoard.setText("GAME OVER");
+    public void gO() {
+        score.setText("GAME OVER");
 
         removeKeyListener(myKeyAdepter);
         timer.stop();
 
-        GameOver dialog = new GameOver((JFrame) getParent().getParent().getParent().getParent(), true, scoreBoard);
+        GameOver dialog = new GameOver((JFrame) getParent().getParent().getParent().getParent(), true, score);
         dialog.setVisible(true);
 
-        RecordsDialog d = new RecordsDialog(parentFrame, true, scoreBoard.getScore());
+        RecordsDialog d = new RecordsDialog(parentFrame, true, score.getScore());
         d.setVisible(true);
 
     }
@@ -230,9 +229,9 @@ public class Board extends JPanel implements ActionListener {
     private void checkRow() {
         boolean lineNoWhite = true;
 
-        for (int i = 0; i < NUM_ROWS; i++) {
+        for (int i = 0; i < filas; i++) {
             lineNoWhite = true;
-            for (int j = 0; j < NUM_COLS; j++) {
+            for (int j = 0; j < columnas; j++) {
                 if (matrix[i][j] == Tetrominoes.NoShape) {
                     lineNoWhite = false;
                 }
@@ -241,7 +240,7 @@ public class Board extends JPanel implements ActionListener {
                 cleanRow(i);
 
                 if (deltaTime >= 100) {
-                    if (scoreBoard.getScore() % 5 == 0) {
+                    if (score.getScore() % 5 == 0) {
                         deltaTime -= 50;
                         timer.setDelay(deltaTime);
                     }
@@ -253,23 +252,23 @@ public class Board extends JPanel implements ActionListener {
 
     private void cleanRow(int numRow) {
         for (int i = numRow; i > 0; i--) {
-            for (int j = 0; j < NUM_COLS; j++) {
+            for (int j = 0; j < columnas; j++) {
                 matrix[i][j] = matrix[i - 1][j];
             }
         }
-        for (int j = 0; j < NUM_COLS; j++) {
+        for (int j = 0; j < columnas; j++) {
             matrix[0][j] = Tetrominoes.NoShape;
         }
 
-        scoreBoard.increment(1);
+        score.increment(1);
 
     }
 
     private void moveCurrentShapeToMatrix() {
         int[][] squaresArray = currentShape.getCoordinates();
         for (int point = 0; point <= 3; point++) {
-            int row = currentRow + squaresArray[point][1];
-            int col = currentCol + squaresArray[point][0];
+            int row = filaact + squaresArray[point][1];
+            int col = colmact + squaresArray[point][0];
             matrix[row][col] = currentShape.getShape();
         }
     }
@@ -279,7 +278,7 @@ public class Board extends JPanel implements ActionListener {
         super.paintComponent(g);
         drawBoard(g);
         if (currentShape != null) {
-            currentShape.draw(g, currentRow, currentCol, squareWidth(), squareHeight());
+            currentShape.draw(g, filaact, colmact, squareWidth(), squareHeight());
         }
         drawBorder(g);
 
@@ -287,12 +286,12 @@ public class Board extends JPanel implements ActionListener {
 
     public void drawBorder(Graphics g) {
         g.setColor(Color.red);
-        g.drawRect(0, 0, NUM_COLS * squareWidth(), NUM_ROWS * squareHeight());
+        g.drawRect(0, 0, columnas * squareWidth(), filas * squareHeight());
     }
 
     public void drawBoard(Graphics g) {
-        for (int row = 0; row < NUM_ROWS; row++) {
-            for (int col = 0; col < NUM_COLS; col++) {
+        for (int row = 0; row < filas; row++) {
+            for (int col = 0; col < columnas; col++) {
 
                 Util.drawSquare(g, row, col, matrix[row][col], squareWidth(), squareHeight());
             }
@@ -300,11 +299,11 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private int squareWidth() {
-        return getWidth() / NUM_COLS;
+        return getWidth() / columnas;
     }
 
     private int squareHeight() {
-        return getHeight() / NUM_ROWS;
+        return getHeight() / filas;
     }
 
 }

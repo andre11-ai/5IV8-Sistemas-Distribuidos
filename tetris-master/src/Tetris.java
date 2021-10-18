@@ -6,7 +6,7 @@
 
 /**
  *
- * @author victor
+ * @author Studio
  */
 public class Tetris extends javax.swing.JFrame {
 
@@ -15,7 +15,7 @@ public class Tetris extends javax.swing.JFrame {
      */
     public Tetris() {
         initComponents();
-        setLocationRelativeTo(null); //centra el JPanel
+        setLocationRelativeTo(null); 
         board.setScoreBoard(scoreBoard);
         board.setNextShape(nextShape1);
         board.setParentFrame(this);
@@ -94,9 +94,9 @@ public class Tetris extends javax.swing.JFrame {
 
         getContentPane().add(board, java.awt.BorderLayout.CENTER);
 
-        jMenu1.setText("Game");
+        jMenu1.setText("Correr");
 
-        jMenuItemInitGame.setText("Ini game");
+        jMenuItemInitGame.setText("Play");
         jMenuItemInitGame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemInitGameActionPerformed(evt);

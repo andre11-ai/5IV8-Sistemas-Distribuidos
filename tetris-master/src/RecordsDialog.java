@@ -14,22 +14,22 @@ import javax.swing.JLabel;
  */
 /**
  *
- * @author alu20482156n
+ * @author Studio
  */
 public class RecordsDialog extends javax.swing.JDialog {
 
     private class Record {
 
         public int record;
-        public String name;
+        public String nombre;
 
         public Record(int record, String name) {
             this.record = record;
-            this.name = name;
+            this.nombre = name;
         }
     }
 
-    private static final String RECORDS_FILE_NAME = "records.txt";
+    private static final String historico = "records.txt";
     private int score;
     private JLabel[] recordLabels;
     private int minRecord;
@@ -72,7 +72,7 @@ public class RecordsDialog extends javax.swing.JDialog {
         BufferedReader input = null;
 
         try {
-            input = new BufferedReader(new FileReader(RECORDS_FILE_NAME));
+            input = new BufferedReader(new FileReader(historico));
 
             int lineCount = 0;
             String line;
@@ -137,7 +137,7 @@ public class RecordsDialog extends javax.swing.JDialog {
 
         JLabelRecord5.setText("0 nombre");
 
-        jLabelName.setText("Name:");
+        jLabelName.setText("Nombre:");
 
         JLabelRecord1.setText("0 nombre");
 
@@ -221,7 +221,7 @@ public class RecordsDialog extends javax.swing.JDialog {
     private void saveRecords() throws IOException {
         PrintWriter output = null;
         try {
-            output = new PrintWriter(new FileWriter(RECORDS_FILE_NAME));
+            output = new PrintWriter(new FileWriter(historico));
             int lineCounter = 0;
             boolean alredyWrittenScore = false;
 
@@ -233,7 +233,7 @@ public class RecordsDialog extends javax.swing.JDialog {
                     lineCounter++;
                 }
                 if (lineCounter < 5) {
-                    output.println(record.record + ", " + record.name);
+                    output.println(record.record + ", " + record.nombre);
                     lineCounter++;
                 }
             }
@@ -248,9 +248,7 @@ public class RecordsDialog extends javax.swing.JDialog {
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
+    
     private void initRecordLabels() {
         recordLabels = new JLabel[5];
 
